@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Admin Dashboard</h1>
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+
+    <h3>Add New Book</h3>
+    <form action="{{ url_for('add_book') }}" method="POST" enctype="multipart/form-data" class="mb-4">
+        <div class="mb-3">
+            <label class="form-label">Book Title:</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">PDF File:</label>
+            <input type="file" name="file" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Cover Image:</label>
+            <input type="file" name="cover" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Add Book</button>
+    </form>
+
+    <h3>Existing Books</h3>
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/' + book.cover) }}" class="card-img-top" alt="{{ book.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <a href="{{ url_for('delete_book', index=loop.index0) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
